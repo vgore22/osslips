@@ -1,0 +1,89 @@
+#include<stdio.h> 
+void main() 
+{ 
+int n,i,a[20],b[20],c[20],f[20],w[20],t[20],s[20],m=0; float tat=0.0,wt=0.0; 
+ 
+char ch; printf("\n Enter the no 
+of jobs"); scanf("%d",&n); 
+ 
+printf("\n Is there Arrival Time(y/n)?"); 
+//fflush(stdin); ch=getchar(); scanf("%c",&ch); 
+printf("\n%c",ch); if(ch=='y') 
+{ 
+for(i=0;i<n;i++) 
+{ 
+printf("Enter the arrival time of process %d:",i); scanf("%d",&a[i]); 
+} 
+printf("\nEnter the Starting time"); for(i=0;i<n;i++) 
+{ 
+printf("\nEnter the starting time of process %d:",i); scanf("%d",&s[i]); 
+} 
+ 
+ 
+printf("\nEnter the Burst Time:"); 
+for(i=0;i<n;i++) 
+{ 
+printf("\nEnter the Burst time of process %d:",i); scanf("%d",&b[i]); 
+} 
+ 
+ 
+printf("\n JOB | CPU BURST TIME | ARRIVAL TIME\n"); 
+printf("  	\n"); 
+for(i=0;i<n;i++) 
+{ 
+if(ch=='y') 
+{ 
+printf("\n%5d %10d %10d",i+1,b[i],a[i]); 
+} 
+} 
+printf("\n  	\n"); 
+} 
+else 
+{ 
+printf("\nEnter the Starting time"); for(i=0;i<n;i++) 
+{ 
+printf("\nEnter the starting time of process %d:",i); scanf("%d",&s[i]); 
+} 
+ 
+ 
+printf("\nEnter the Burst Time:"); 
+for(i=0;i<n;i++) 
+{ 
+printf("\nEnter the Burst time of process %d:",i); scanf("%d",&b[i]); 
+} 
+printf("\n JOB | CPU BURST TIME | ARRIVAL TIME\n"); 
+printf("  	\n"); 
+for(i=0;i<n;i++) 
+{ 
+/*if(ch=='y') 
+*	{ 
+*	printf("\n%5d %10d %10d",i+1,b[i],a[i]); 
+*	}*/ 
+printf("\n %5d %10d %10d",i+1,b[i],0); 
+} 
+printf("\n  	\n"); 
+} 
+for(i=0;i<n;i++) 
+{ 
+if(ch=='y') 
+{ 
+w[i]=s[i]-a[i]; 
+c[i]=s[i]+b[i]; t[i]=c[i]- a[i]; wt=wt+w[i]; 
+tat=tat+t[i]; 
+} 
+else 
+{ 
+w[i]=m; c[i]=m=m+b[i]; 
+t[i]=c[i]; 
+wt=wt+w[i]; tat=tat+t[i]; 
+} 
+} 
+printf("\n\n\nJob | Turn around time | Waiting time\n"); 
+printf("  	\n"); 
+for(i=0;i<n;i++) 
+{ 
+printf("\n%5d%10d%10d",i+1,t[i],w[i]); 
+} 
+printf("\n  	"); 
+printf("\n\n\nAverage turn around time=%f",tat/n); printf("\n\n\nAverage waiting time=%f",wt/n); 
+} 

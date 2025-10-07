@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <dirent.h>
+#define MAX_CMD_LEN 1024 #define MAX_ARGS 100
+void list_files_in_directory(const char *dirname) {
+struct dirent *de;
+    DIR *dr = opendir(dirname);
+if (dr == NULL) {
+printf("Could not open current directory\n"); return;
+    }
+printf("Files in directory %s:\n", dirname); while ((de = readdir(dr)) != NULL) {
+printf("%s\n", de->d_name);
+    }
+closedir(dr);
+}
+void execute_command(char **args) {
+pid_t pid = fork();
+if (pid < 0) {
+printf("Failed to create a new process\n");
+    } else if (pid == 0) { // Child process if (execvp(args[0], args) == -1) { perror("myshell");
+        }
+exit(EXIT_FAILURE);
+    } else { // Parent process wait(NULL);
+    }
+}
+int main() {
+char command[MAX_CMD_LEN]; char *args[MAX_ARGS]; char *token; int should_run = 1;
+while (should_run) {
+printf("myshell$ "); fgets(command, MAX_CMD_LEN, stdin); command[strlen(command) - 1] = '\0'; // Remove newline
+character
+int arg_count = 0; token = strtok(command, " "); while (token != NULL) {
+args[arg_count++] = token; token = strtok(NULL, " ");
+        }
+args[arg_count] = NULL;
+if (arg_count == 0) {
+continue; // No input, prompt again
+        }
+if (strcmp(args[0], "exit") == 0) { should_run = 0;
+        } else if (strcmp(args[0], "list") == 0 && arg_count == 3 && strcmp(args[1], "f") == 0) { list_files_in_directory(args[2]);
+        } else {
+execute_command(args);
+        }
+    }
+return 0;
+}

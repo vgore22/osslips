@@ -1,0 +1,30 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+Previous Post Next Post
+#include <sys/wait.h>
+#define MAX_CMD_LEN 1024
+#define MAX_ARGS 100
+// Function to implement the 'typeline -a filename' command
+void typeline_all(char *filename) {
+FILE *file = fopen(filename, "r");
+char line[256];
+
+if (file == NULL) {
+perror("myshell");
+return;
+}
+// Print each line of the file
+while (fgets(line, sizeof(line), file)) {
+printf("%s", line);
+}
+fclose(file);
+}
+// Function to execute regular shell commands
+void execute_command(char **args) {
+pid_t pid = fork();
+if (pid < 0) {
+perror("myshell");
+} else if (pid == 0) { // Child process
+if (execvp(args[0], args) == -1) {

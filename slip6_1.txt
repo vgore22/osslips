@@ -1,0 +1,55 @@
+#include<stdio.h> 
+void main() 
+{ 
+int f[3]={-1,-1,-1},cnt[3]={-1,-1,-1},a[50],i,j,no,pfault=0,hratio; printf("\n++++++++++++++++++ Most Recently Used Page Algo 
+++++++++++++++++++\n"); 
+printf("  	"); printf("\nEnter the no of pages:"); scanf("%d",&no); printf("\nEnter the Pages:"); for(i=0;i<no;i++) scanf("%d",&a[i]); 
+ 
+printf("\nPageNo\tFrame\t\tResult"); 
+for(i=0;i<no;i++) 
+{ 
+printf("\n%d",a[i]); 
+if(f[0]!=a[i] &&f[1]!=a[i] &&f[2]!=a[i] ) 
+{ 
+pfault++; if(f[0]==-1) 
+{ 
+f[0]=a[i]; 
+cnt[0]=i; 
+} 
+else if(f[1]==-1) 
+{ 
+f[1]=a[i]; 
+cnt[1]=i; 
+} 
+else if(f[2]==-1) 
+{ 
+f[2]=a[i]; cnt[2]=i; 
+} 
+else 
+{ 
+if(cnt[0]>cnt[1] && cnt[0]>cnt[2]) 
+{ 
+f[0]=a[i]; 
+cnt[0]=i; 
+} 
+else if(cnt[1]>cnt[0] && cnt[1]>cnt[2]) 
+{ 
+f[1]=a[i]; cnt[1]=i; 
+} 
+else 
+{ 
+f[2]=a[i]; cnt[2]=i; 
+} 
+} 
+printf("\t%d %d %d\t\tPage Fault",f[0],f[1],f[2]); 
+} 
+else 
+{ 
+for(j=0;j<3;j++) if(f[j]==a[i]) cnt[j]=i; 
+printf("\t%d %d %d\t\tNo Page Fault .... ",f[0],f[1],f[2]); 
+} 
+} 
+printf("\nTotal no of Page 
+Faults:%d",pfault); hratio=no-pfault; printf("\n Hitratio:%d/%d",hratio,no); 
+printf("\n Missratio:%d/%d",pfault,no); 
+} 
