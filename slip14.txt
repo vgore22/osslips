@@ -1,0 +1,228 @@
+#Q1
+// Write a C program to implement the shell which displays the command prompt “myshell$”.
+// It accepts the command, tokenize the command line and execute it by creating the child process.
+
+// Also implement the additional command ‘typeline’ as
+
+//  typeline +n filename :- To print first n lines in the file.
+//  typeline -n filename :- To print last n lines in the file.
+//  typeline a filename :- To print all lines in the file.
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/wait.h>
+
+void make_toks(char *s, char *tok[])
+{
+  int i = 0;
+  char *p;
+  p = strtok(s, " ");
+  while (p != NULL)
+  {
+    tok[i++] = p;
+    p = strtok(NULL, " ");
+  }
+  tok[i] = NULL;
+}
+
+void typeline(char *fn, char *op)
+{
+  int fh, i, j, n;
+  char c;
+  fh = open(fn, O_RDONLY);
+  if (fh == -1)
+  {
+    printf("File %s not found.\n", fn);
+    return;
+  }
+  if (strcmp(op, "a") == 0)
+  {
+    while (read(fh, &c, 1) > 0)
+      printf("%c", c);
+    close(fh);
+    return;
+  }
+  n = atoi(op);
+  if (n > 0)
+  {
+    i = 0;
+    while (read(fh, &c, 1) > 0)
+    {
+      printf("%c", c);
+      if (c == '\n')
+        i++;
+      if (i == n)
+        break;
+    }
+  }
+  if (n < 0)
+  {
+    i = 0;
+    while (read(fh, &c, 1) > 0)
+      if (c == '\n')
+        i++;
+    lseek(fh, 0, SEEK_SET);
+    j = 0;
+    while (read(fh, &c, 1) > 0)
+    {
+      if (c == '\n')
+        j++;
+      if (j == i + n)
+        break;
+    }
+    while (read(fh, &c, 1) > 0)
+      printf("%c", c);
+  }
+  close(fh);
+}
+
+int main()
+{
+  char buff[80], *args[10];
+  int pid , status;
+  while (1)
+  {
+    printf("myshell$ ");
+    fflush(stdin);
+    fgets(buff, 80, stdin);
+    buff[strlen(buff) - 1] = '\0';
+    make_toks(buff, args);
+    if (strcmp(args[0], "typeline") == 0)
+      typeline(args[2], args[1]);
+    else
+    {
+      pid = fork();
+      if (pid > 0)
+        wait(&status);
+      else
+        if (execvp(args[0], args) == -1)
+          printf("Bad command.\n");
+    }
+  }
+
+  return 0;
+}
+
+
+
+#Q2
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct process
+{
+  int id, at, bt, tat, wt , ct;
+} process;
+
+void sort(process pro[], int n)
+{
+  process temp;
+  for (int i = 0; i < n; i++)
+    for (int j = 0; j < n - i - 1; j++)
+      if (pro[j].at > pro[j + 1].at)
+      {
+        temp = pro[j];
+        pro[j] = pro[j + 1];
+        pro[j + 1] = temp;
+      }
+}
+
+void display(process pro[], int n)
+{
+  printf("\n\nTABLE:\n");
+  for (int i = 0; i < n; i++)
+  {
+    printf("P%d AT: %d BT: %d CT: %d TAT: %d WT: %d\n",
+           pro[i].id,
+           pro[i].at,
+           pro[i].bt,
+           pro[i].ct,
+           pro[i].tat,
+           pro[i].wt);
+  }
+}
+
+void nonPreemptiveSJF(process proc[], int n)
+{
+  sort(proc, n);
+  process temp;
+
+  int totalBT = 0, min, k = 1, j, i, ct = 0, tat = 0;
+
+  int wait_time_total = 0;
+  int turn_around_time_total = 0;
+
+  for (i = 0; i < n; i++)
+  {
+    totalBT += proc[i].bt;
+    min = proc[k].bt;
+
+    for (j = k; j < n; j++)
+      if (proc[j].at <= totalBT && proc[j].bt < min)
+      {
+        temp = proc[k];
+        proc[k] = proc[j];
+        proc[j] = temp;
+      }
+
+    k++;
+  }
+
+  proc[0].wt = 0;
+  totalBT = 0;
+
+  for (i = 0; i < n; i++)
+  {
+    proc[i].ct = totalBT + proc[i].bt;
+    totalBT += proc[i].bt;
+
+    if (i >= 1)
+    {
+      ct += proc[i - 1].bt;
+      proc[i].wt = ct - proc[i].at;
+      wait_time_total += proc[i].wt;
+    }
+
+    tat += proc[i].bt;
+    proc[i].tat = tat - proc[i].at;
+    turn_around_time_total += proc[i].tat;
+  }
+
+  sort(proc, n);
+
+  display(proc, n);
+  
+  printf("\nAvg wating time: %f\nAvg turn around time: %f\n\n", (wait_time_total * 1.0) / n, (turn_around_time_total * 1.0) / n);
+
+}
+
+int main()
+{
+  process proc[10];
+  int n, i;
+  printf("Enter number of processes: ");
+  scanf(" %d", &n);
+  for (i = 0; i < n; i++)
+  {
+    proc[i].id = i + 1;
+    printf("\n");
+    printf("Arrival time for P%d: ", proc[i].id);
+    scanf(" %d", &proc[i].at);
+
+    printf("Burst time for P%d: ", proc[i].id);
+    scanf(" %d", &proc[i].bt);
+
+    proc[i].tat = proc[i].ct = proc[i].wt = 0;
+  }
+  nonPreemptiveSJF(proc, n);
+}
+
+/*
+INPUT:
+4 0 3 1 5 2 4 3 7
+*/
