@@ -1,30 +1,79 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-Previous Post Next Post
-#include <sys/wait.h>
-#define MAX_CMD_LEN 1024
-#define MAX_ARGS 100
-// Function to implement the 'typeline -a filename' command
-void typeline_all(char *filename) {
-FILE *file = fopen(filename, "r");
-char line[256];
 
-if (file == NULL) {
-perror("myshell");
-return;
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+void typeline(char mode, char *fname)
+{
+    int fd, lineCount = 0, linesToPrint = 0;
+    char ch;
+
+    fd = open(fname, O_RDONLY);
+    if (fd == -1)
+    {
+        printf("File %s not found!\n", fname);
+        return;
+    }
+
+    if (mode == 'a')   // Print all lines
+    {
+        while (read(fd, &ch, 1))
+            putchar(ch);
+    }
+    else if (mode >= '0' && mode <= '9')  // Print n lines
+    {
+        linesToPrint = mode - '0';  // Convert char to number
+        while (read(fd, &ch, 1))
+        {
+            putchar(ch);
+            if (ch == '\n')
+            {
+                lineCount++;
+                if (lineCount == linesToPrint)
+                    break;
+            }
+        }
+    }
+
+    close(fd);
 }
-// Print each line of the file
-while (fgets(line, sizeof(line), file)) {
-printf("%s", line);
+
+// --------------------------- SHELL FUNCTION ----------------------------
+int main()
+{
+    char cmd[80], t1[20], t2[20], t3[20];
+    int n;
+
+    while (1)
+    {
+        printf("myShell$ ");
+        fgets(cmd, sizeof(cmd), stdin);
+        n = sscanf(cmd, "%s %s %s", t1, t2, t3);
+
+        if (n == 0)
+            continue;
+
+        if (strcmp(t1, "exit") == 0)
+            break;
+
+        // Custom 'typeline' command
+        if (strcmp(t1, "typeline") == 0 && n == 3)
+            typeline(t2[0], t3);
+
+        // Normal Linux commands
+        else if (fork() == 0)
+        {
+            if (n == 1)
+                execlp(t1, t1, NULL);
+            else if (n == 2)
+                execlp(t1, t1, t2, NULL);
+            else if (n == 3)
+                execlp(t1, t1, t2, t3, NULL);
+            perror(t1);
+            exit(0);
+        }
+    }
+    return 0;
 }
-fclose(file);
-}
-// Function to execute regular shell commands
-void execute_command(char **args) {
-pid_t pid = fork();
-if (pid < 0) {
-perror("myshell");
-} else if (pid == 0) { // Child process
-if (execvp(args[0], args) == -1) {
