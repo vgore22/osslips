@@ -1,0 +1,51 @@
+ <?php
+ // Initialize an empty stack
+ $stack = [];
+ function push(&$stack, $element) {
+ array_push($stack, $element);
+ }
+ // Function to delete an element from the stack
+ function pop(&$stack) {
+ if (empty($stack)) {
+ return "Stack is empty, cannot delete an element.";
+ }
+ return array_pop($stack);
+ }
+// Function to display the contents of the stack
+ function displayStack($stack) {
+ if (empty($stack)) {
+ return "Stack is empty.";
+ }
+ return implode(", ", $stack);
+ }
+ // Menu-driven program
+ while (true) {
+ echo "<h1>Stack Operations Menu</h1>";
+ echo "1. Insert an element into the stack<br>";
+ echo "2. Delete an element from the stack<br>";
+ echo "3. Display the contents of the stack<br>";
+ echo "4. Exit<br>";
+ $choice = (int)readline("Choose an option (1-4): ");
+ switch ($choice) {
+ case 1:
+ $element = readline("Enter the element to insert: ");
+ push($stack, $element);
+ echo "Element '$element' inserted into the stack.<br><br>";
+ break;
+ case 2:
+ $removedElement = pop($stack);
+ echo $removedElement . "<br><br>";
+ break;
+ case 3:
+ echo "Contents of the stack: " . displayStack($stack) . "
+ <br><br>";
+ break;
+ case 4:
+ exit("Exiting program.");
+ default:
+ echo "Invalid option. Please try again.<br><br>";
+ break;
+ }
+}
+ ?>
+ 

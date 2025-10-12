@@ -1,0 +1,52 @@
+#Numbers.html
+
+
+<html>
+<body>
+<form action="numbers.php" method="post">
+  Enter First Number: <input type="number" name="num1"><br><br>
+  Enter Second Number: <input type="number" name="num2"><br><br>
+  <input type="submit" value="Calculate">
+</form>
+</body>
+</html>
+
+
+#numbers.php
+
+
+	<?php
+$num1 = $_POST['num1'];
+$num2 = $_POST['num2'];
+
+// (a) Function for mod
+function findMod($a, $b) {
+    echo "a) Mod of $a and $b = " . ($a % $b) . "<br>";
+}
+
+// (b) Function for power
+function findPower($a, $b) {
+    echo "b) $a ^ $b = " . pow($a, $b) . "<br>";
+}
+
+// (c) Function for sum of first n numbers
+function sumFirstN($n) {
+    $sum = ($n * ($n + 1)) / 2;
+    echo "c) Sum of first $n numbers = $sum<br>";
+}
+
+// (d) Function for factorial
+function factorial($n) {
+    $fact = 1;
+    for ($i = 1; $i <= $n; $i++) {
+        $fact *= $i;
+    }
+    echo "d) Factorial of $n = $fact";
+}
+
+// Call functions
+findMod($num1, $num2);
+findPower($num1, $num2);
+sumFirstN($num1);
+factorial($num2);
+?>

@@ -1,0 +1,45 @@
+<html>
+<body>
+<h3>Associative Array Operations</h3>
+<form action="process.php" method="post">
+<select name="choice">
+<option value="1">Split into
+chunks</option>
+<option value="2">Sort by values (keep
+keys)</option>
+<option value="3">Filter even
+elements</option>
+</select>
+<br><br>
+Chunk size (for option 1): <input
+type="number" name="chunk_size">
+<br><br>
+<input type="submit" value="Run">
+</form>
+</body>
+</html>
+
+
+<?php
+$myArray = array("a"=>12, "b"=>7, "c"=>25,
+"d"=>18, "e"=>5);
+echo "Original Array:\n";
+print_r($myArray);
+$choice = $_POST['choice'];
+if ($choice == 1) {
+$size = $_POST['chunk_size'];
+echo "Array split into chunks:\n";
+print_r(array_chunk($myArray, $size, true));
+}
+elseif ($choice == 2) {
+asort($myArray);
+echo "Array sorted by values:\n";
+print_r($myArray);
+}
+elseif ($choice == 3) {
+$even = array_filter($myArray, fn($v) => $v
+% 2 == 0);
+echo "Even elements:\n";
+print_r($even);
+}
+?>

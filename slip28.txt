@@ -1,0 +1,36 @@
+PHP CODE ONLY :
+ <html>
+ <head>
+ <title>PHP Test</title>
+ <style>
+ .center {
+ margin-left: auto;
+ margin-right: auto;
+ }
+ </style>
+ </head>
+ <body>
+ <?php
+ $file = fopen("stud.dat", "r");
+ $sep = ",";
+ $con = file('stud.dat');
+ echo "<table border='3px' class='center'>\n";
+ foreach ($con as $row)
+ {
+ echo "\t<tr>\n";
+ $cells = explode($sep, $row);
+ foreach ($cells as $cell)
+ {
+ echo sprintf("\t<td> %s </td>\n", $cell);
+ }
+ echo "\t</tr>\n";
+ }
+ echo "</table>\n";
+ foreach ($cells as $cell)
+ {
+ sprintf("\t<td> %s </td>\n", $cell);
+ }
+fclose($file);
+ ?>
+ </body>
+ </html

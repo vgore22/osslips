@@ -1,0 +1,39 @@
+#Slip_8.html	
+<html>
+<body>
+<form action="stringops.php" method="post">
+  Big String: <input type="text" name="big"><br><br>
+  Small String: <input type="text" name="small"><br><br>
+  N (for compare): <input type="number" name="n"><br><br>
+  <input type="submit" value="Check">
+</form>
+</body>
+</html>
+
+
+#Stringpos.php
+
+	<?php
+$big   = $_POST['big'];
+$small = $_POST['small'];
+$n     = $_POST['n'];
+
+// (a) Check if small string appears at start
+if (stripos($big, $small) === 0)
+    echo "a) '$small' appears at the start of '$big'<br>";
+else
+    echo "a) '$small' does NOT appear at the start of '$big'<br>";
+
+// (b) Find position of small string in big string
+$pos = stripos($big, $small);
+if ($pos !== false)
+    echo "b) Position of '$small' in '$big' is: $pos<br>";
+else
+    echo "b) '$small' not found in '$big'<br>";
+
+// (c) Compare first n characters (case-insensitive)
+if (strncasecmp($big, $small, $n) == 0)
+    echo "c) First $n characters are equal (case-insensitive)";
+else
+    echo "c) First $n characters are NOT equal";
+?>

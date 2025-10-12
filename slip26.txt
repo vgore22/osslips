@@ -1,0 +1,34 @@
+#php code only
+
+ <?php
+ // Connect to the database
+ $db = new PDO('mysql:host=localhost;dbname=healthcare', 'username', 'password');
+ // Read the hospital name from the user
+ echo "Enter the hospital name: ";
+ $hname = trim(fgets(STDIN));
+ // Get the hospital number for the given hospital name
+ $stmt = $db->prepare('SELECT hosp_no FROM Hospital WHERE hname = :hname');
+ $stmt->bindParam(':hname', $hname);
+ $stmt->execute();
+ $hosp_no = $stmt->fetchColumn();
+ // Get the list of doctors visiting the hospital
+ $stmt = $db->prepare('SELECT doc_no, dname, address, city, area FROM Doctor WHERE
+ hosp_no = :hosp_no');
+ $stmt->bindParam(':hosp_no', $hosp_no);
+ $stmt->execute();
+ $doctors = $stmt->fetchAll();
+ // Print the doctors in a table
+ echo "<table>\n";
+ echo "<tr><th>Doctor Number</th><th>Doctor
+ Name</th><th>Address</th><th>City</th><th>Area</th></tr>\n";
+foreach ($doctors as $doctor) {
+ echo "<tr>";
+ echo "<td>" . htmlspecialchars($doctor['doc_no']) . "</td>";
+ echo "<td>" . htmlspecialchars($doctor['dname']) . "</td>";
+ echo "<td>" . htmlspecialchars($doctor['address']) . "</td>";
+ echo "<td>" . htmlspecialchars($doctor['city']) . "</td>";
+ echo "<td>" . htmlspecialchars($doctor['area']) . "</td>";
+ echo "</tr>\n";
+ }
+ echo "</table>\n";
+ ?

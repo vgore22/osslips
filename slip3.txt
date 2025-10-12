@@ -1,0 +1,14 @@
+
+<html>
+<body>
+
+<h1 style="background-color:green; color:red; font-family:'Comic Sans MS'; font-size:48px;">
+  My Company
+</h1>
+
+<p style="color:blue;">
+  We are a leading company that provides innovative solutions to customers worldwide.
+</p>
+
+</body>
+</html>

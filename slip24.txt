@@ -1,0 +1,20 @@
+ <html>
+    <body>
+        <form action="slip24.php" method="POST">
+            Enter the 1st file name:<input type="text" name="f1"><br>
+            Enter the 2nd file name:<input type="text" name="f2"><br>
+            <input type="submit" value="submit">
+        </form>
+    </body>
+ </html>
+
+
+ <?php
+ $first_file_name=$_POST['f1'];
+ $second_file_name=$_POST['f2'];
+ // Read the content of the first file
+ $first_file_content = file_get_contents($first_file_name);
+ // Append the content of the first file to the second file
+ file_put_contents($second_file_name, $first_file_content, FILE_APPEND);
+ echo "Content of the first file appended to the second file.";
+ ?

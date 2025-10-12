@@ -1,0 +1,45 @@
+<html>
+<head>
+  <!-- Local Bootstrap CSS file -->
+  <link rel="stylesheet" href="bootstrap.min.css">
+</head>
+<body>
+
+<div class="container-fluid text-center">
+
+  <!-- Header -->
+  <div class="row">
+    <div class="col-12 bg-primary text-white p-3">
+      <h2>My College Name</h2>
+    </div>
+  </div>
+
+  <!-- Menu + Content -->
+  <div class="row">
+    <div class="col-3 bg-success text-white p-3">
+      <h4>Menu</h4>
+      <p>About Us</p>
+    </div>
+    <div class="col-9 bg-warning p-3">
+      <h4>College Information</h4>
+      <p>
+        This is my college information. Add details about programs,
+        facilities, and activities here.
+      </p>
+    </div>
+  </div>
+
+  
+	<!-- Footer -->
+  <div class="row">
+    <div class="col-12 bg-danger text-white p-3">
+      <p>Address: Pune, Maharashtra, India</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- Local Bootstrap JS file -->
+<script src="bootstrap.bundle.min.js"></script>
+</body>
+</html>

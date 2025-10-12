@@ -1,0 +1,51 @@
+#stringform.html
+ 
+<html>
+<body>
+<form method="post"
+action="stringops.php">
+Enter big string (sentence):
+<input type="text"
+name="big"><br><br>
+Enter small string (word): <input
+type="text" name="small"><br><br>
+Enter position: <input
+type="text" name="pos"><br><br>
+Enter number of characters to
+remove: <input type="text"
+name="len"><br><br>
+<input type="submit"
+value="Submit">
+</form>
+</body>
+</html>
+
+#stringops.php
+
+<?php
+$big = $_POST['big']; // sentence
+$small = $_POST['small']; // word
+$pos = (int)$_POST['pos'];
+$len = (int)$_POST['len'];
+echo "<b>Original Big String:</b>
+$big<br>";
+echo "<b>Small String:</b>
+$small<br><br>";
+// a) Delete part of string
+$deleted = substr_replace($big, "",
+$pos, $len);
+echo "a) After Deletion:
+$deleted<br><br>";
+// b) Insert small string into big
+string
+$inserted = substr_replace($big,
+$small, $pos, 0);
+echo "b) After Insertion:
+$inserted<br><br>";
+// c) Replace part of string with
+small string
+$replaced = substr_replace($big,
+$small, $pos, $len);
+echo "c) After Replacement:
+$replaced<br>";
+?>

@@ -1,0 +1,46 @@
+#sortform.html
+
+<html>
+<body>
+<form method="post"
+action="sortarray.php">
+<input type="submit"
+value="Show Sorted Arrays">
+</form>
+</body>
+</html>
+
+
+ #sortarray.php
+
+<?php
+$arr =
+array("Sagar"=>"31","Vicky"=>"41","Leena"=>"39","
+Ramesh"=>"40");
+echo "<b>Original Array:</b><br>";
+print_r($arr);
+echo "<br><br>";
+// a) Ascending order sort by Value
+$ascValue = $arr;
+asort($ascValue);
+echo "a) Ascending by Value:<br>";
+print_r($ascValue);
+echo "<br><br>";
+// b) Ascending order sort by Key
+$ascKey = $arr;
+ksort($ascKey);
+echo "b) Ascending by Key:<br>";
+print_r($ascKey);
+echo "<br><br>";
+// c) Descending order sort by Value
+$descValue = $arr;
+arsort($descValue);
+echo "c) Descending by Value:<br>";
+print_r($descValue);
+echo "<br><br>";
+// d) Descending order sort by Key
+$descKey = $arr;
+krsort($descKey);
+echo "d) Descending by Key:<br>";
+print_r($descKey);
+?>

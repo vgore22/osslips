@@ -1,0 +1,46 @@
+#Form.html
+
+
+<html>
+<body>
+<form action="result.php" method="post">
+  Enter First Number: <input type="number" name="num1"><br><br>
+  Enter Second Number: <input type="number" name="num2"><br><br>
+
+  <b>Select Operation:</b><br>
+  <input type="radio" name="op" value="add" checked> Addition<br>
+  <input type="radio" name="op" value="sub"> Subtraction<br>
+  <input type="radio" name="op" value="mul"> Multiplication<br>
+  <input type="radio" name="op" value="div"> Division<br><br>
+
+  <input type="submit" value="Calculate">
+</form>
+</body>
+</html>	
+
+#functions.php
+
+
+<?php
+// Function with default parameters
+function calculate($a, $b = 1, $op = "add") {
+    if ($op == "add") {
+        return $a + $b;
+    }
+    else if ($op == "sub") {
+        return $a - $b;
+    }
+    else if ($op == "mul") {
+        return $a * $b;
+    }
+    else if ($op == "div") {
+        if ($b != 0)
+            return $a / $b;
+        else
+            return "Division by zero error";
+    }
+    else {
+        return "Invalid operation";
+    }
+}
+?>

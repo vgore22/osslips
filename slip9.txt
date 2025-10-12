@@ -1,0 +1,44 @@
+#String_explode.html
+
+	
+<html>
+<body>
+<form action=" String_explode.php " method="post">
+  Enter String: <input type="text" name="str"><br><br>
+  Choose Separator:
+  <select name="sep">
+    <option value="#">#</option>
+    <option value="|">|</option>
+    <option value="%">%</option>
+  </select><br><br>
+  <input type="submit" value="Process">
+</form>
+</body>
+</html>	
+
+
+#String_explode.php
+
+
+<?php
+$str = $_POST['str'];
+$sep = $_POST['sep'];
+
+// (a) Split into words
+
+$parts = explode($sep, $str);
+echo "a) Words after splitting:<br>";
+foreach ($parts as $w) {
+    echo $w . "<br>";
+}
+
+// (b) Replace occurrences of separator with another (say @)
+
+$newStr = str_replace($sep, "@", $str);
+echo "<br>b) String after replacing '$sep' with '@': $newStr<br>";
+
+// (c) Find the last word
+
+$lastWord = end($parts);
+echo "<br>c) Last word in string: $lastWord";
+?>

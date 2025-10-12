@@ -1,0 +1,70 @@
+#menuform.html 
+
+<html>
+<body>
+<form method="post"
+action="menuarray.php">
+<input type="radio" name="r"
+value="rev"> Reverse key-value pair
+<br>
+<input type="radio" name="r"
+value="ran"> Traverse in random
+order <br>
+<input type="radio" name="r"
+value="var"> Convert elements to
+variables<br>
+<input type="radio" name="r"
+value="dis"> Display elements with
+keys <br> <br>
+<input type="submit"
+value="Submit">
+</form>
+</body>
+</html>
+
+#menuarray.php
+
+<?php
+// Sample associative array
+$arr =
+array("Sagar"=>"31","Vicky"=>"41","Le
+ena"=>"39","Ramesh"=>"40");
+$choice = $_POST['choice'];
+switch($choice) {
+case "rev":
+echo "<b>Reverse key-value
+pair:</b><br>";
+$rev = array_flip($arr); //
+key <-> value swapped
+print_r($rev);
+break;
+case "ran":
+echo "<b>Traverse in random
+order:</b><br>";
+$randArr = $arr;
+shuffle($randArr);
+// shuffle works on indexed arrays,
+so convert first
+print_r($randArr);
+break;
+case "var":
+echo "<b>Convert elements
+into variables:</b><br>";
+extract($arr);
+echo "Sagar = $Sagar<br>";
+echo "Vicky = $Vicky<br>";
+echo "Leena = $Leena<br>";
+echo "Ramesh = $Ramesh<br>";
+break;
+case "dis":
+echo "<b>Display key with
+elements:</b><br>";
+foreach($arr as $key=>$val) {
+echo "$key => $val<br>";
+}
+break;
+default:
+echo "Please select an
+option.";
+}
+?>
