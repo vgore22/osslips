@@ -1,1 +1,1 @@
-# osslips
+# javaslips
